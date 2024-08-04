@@ -1,0 +1,51 @@
+$engine: 3
+$onesync: on
+name: Ricis Dev Server
+description: Recipe for Ricis custom FiveM server.
+
+tasks:
+  - action: download_github
+    src: https://github.com/citizenfx/cfx-server-data
+    ref: master
+    subpath: resources
+    dest: ./resources
+
+  # Download Ricis Dev Server
+  - action: download_github
+    src: https://github.com/RiCIcom/ricis_dev_server
+    ref: main
+    subpath: resources
+    dest: ./resources/ricis_dev_server
+
+  # Set up server configuration
+  - action: write_file
+    path: ./server.cfg
+    content: |
+      endpoint_add_tcp "0.0.0.0:30120"
+      endpoint_add_udp "0.0.0.0:30120"
+      
+      set mysql_connection_string "mysql://user:password@localhost/database_name"
+      
+      ensure mysql-async
+      ensure ricis_dev_server
+      
+      # Set the session name
+      sv_hostname "Ricis Dev Server"
+      
+      # Set the maximum number of players
+      sv_maxclients 32
+      
+      # Enable OneSync (required for entity routing)
+      onesync on
+      
+      # Set language
+      sets locale "en"
+      sets mysql_debug false
+      
+      # Enable or disable game monitoring
+      sets gamename "gta5"
+      
+      # Discord logging (Optional)
+      # set discord_bot_token "your_bot_token"
+      # set discord_webhook_url "your_webhook_url"
+      # set discord_channel_id "your_channel_id"
