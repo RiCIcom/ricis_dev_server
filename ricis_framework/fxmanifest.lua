@@ -22,12 +22,12 @@ client_scripts {
 }
 
 files {
-    'uiindex.html',
-    'uistyles.css',
-    'uiscript.js'
+    'ui/index.html',
+    'ui/styles.css',
+    'ui/script.js'
 }
 
-ui_page 'uiindex.html'
+ui_page 'ui/index.html'
 
 shared_scripts {
     'shared/config.lua'
