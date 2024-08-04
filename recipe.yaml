@@ -50,7 +50,7 @@ tasks:
   # Download server_template.cfg for Ricis Dev Server
   - action: download_file
     url: https://raw.githubusercontent.com/ricicom/ricis_dev_server/main/server.cfg
-    path: ./tmp/recipe/server_template.cfg
+    path: ./tmp/recipe/server.cfg
 
   # Download logo.png for Ricis Dev Server
   - action: download_file
@@ -64,7 +64,7 @@ tasks:
 
   # Move server_template.cfg to server.cfg
   - action: move_path
-    src: ./tmp/recipe/server_template.cfg
+    src: ./tmp/recipe/server.cfg
     dest: ./server.cfg
 
   - action: move_path
