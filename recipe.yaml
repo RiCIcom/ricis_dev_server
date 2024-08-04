@@ -20,5 +20,5 @@ tasks:
 
   # Download server.cfg for Ricis Dev Server
   - action: download_file
-    url: https://github.com/RiCIcom/ricis_dev_server/blob/main/server.cfg
+    url: https://raw.githubusercontent.com/RiCIcom/ricis_dev_server/main
     path: ./server.cfg
