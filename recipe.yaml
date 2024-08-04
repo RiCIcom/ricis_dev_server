@@ -13,7 +13,7 @@ tasks:
 
   # Download Ricis Dev Server
   - action: download_github
-    src: https://github.com/ricizockt/ricis_dev_server
+    src: https://github.com/ricicom/ricis_dev_server
     ref: main
     subpath: resources
     dest: ./resources/ricis_dev_server
