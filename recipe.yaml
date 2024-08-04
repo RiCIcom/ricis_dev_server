@@ -2,6 +2,7 @@ $engine: 3
 $onesync: on
 name: Ricis Dev Server
 description: Recipe for Ricis custom FiveM server.
+author: Rici_Zockt
 
 variables:
   - name: serverName
@@ -89,49 +90,49 @@ tasks:
 
   # Replace placeholders in server.cfg
   - action: replace_string
-    path: ./server.cfg
-    search: "{{serverName}}"
-    replace: "{{serverName}}"
+    file: ./server.cfg
+    search: '{{serverName}}'
+    replace: '{{serverName}}'
 
   - action: replace_string
-    path: ./server.cfg
-    search: "{{dbHost}}"
-    replace: "{{dbHost}}"
+    file: ./server.cfg
+    search: '{{dbHost}}'
+    replace: '{{dbHost}}'
 
   - action: replace_string
-    path: ./server.cfg
-    search: "{{dbName}}"
-    replace: "{{dbName}}"
+    file: ./server.cfg
+    search: '{{dbName}}'
+    replace: '{{dbName}}'
 
   - action: replace_string
-    path: ./server.cfg
-    search: "{{dbUsername}}"
-    replace: "{{dbUsername}}"
+    file: ./server.cfg
+    search: '{{dbUsername}}'
+    replace: '{{dbUsername}}'
 
   - action: replace_string
-    path: ./server.cfg
-    search: "{{dbPassword}}"
-    replace: "{{dbPassword}}"
+    file: ./server.cfg
+    search: '{{dbPassword}}'
+    replace: '{{dbPassword}}'
 
   - action: replace_string
-    path: ./server.cfg
-    search: "{{maxClients}}"
-    replace: "{{maxClients}}"
+    file: ./server.cfg
+    search: '{{maxClients}}'
+    replace: '{{maxClients}}'
 
   - action: replace_string
-    path: ./server.cfg
-    search: "{{svLicense}}"
-    replace: "{{svLicense}}"
+    file: ./server.cfg
+    search: '{{svLicense}}'
+    replace: '{{svLicense}}'
 
   - action: replace_string
-    path: ./server.cfg
-    search: "{{recipeName}}"
-    replace: "Ricis Dev Server"
+    file: ./server.cfg
+    search: '{{recipeName}}'
+    replace: 'Ricis Dev Server'
 
   - action: replace_string
-    path: ./server.cfg
-    search: "{{recipeDescription}}"
-    replace: "Recipe for Ricis custom FiveM server"
+    file: ./server.cfg
+    search: '{{recipeDescription}}'
+    replace: 'Recipe for Ricis custom FiveM server'
 
   # Additional resources
   - action: download_github
