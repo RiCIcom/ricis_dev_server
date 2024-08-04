@@ -4,6 +4,10 @@ name: Ricis Dev Server
 description: Recipe for Ricis custom FiveM server.
 
 variables:
+  - name: serverName
+    description: "Enter the server name"
+    default: "Ricis Dev Server"
+  
   - name: dbHost
     description: "Enter the database host (e.g., localhost)"
     default: "localhost"
@@ -19,6 +23,14 @@ variables:
   - name: dbPassword
     description: "Enter the database password"
     default: ""
+  
+  - name: maxClients
+    description: "Enter the maximum number of clients"
+    default: "32"
+  
+  - name: svLicense
+    description: "Enter your server license key"
+    default: ""
 
 tasks:
   # Download default CFX resources
@@ -26,66 +38,70 @@ tasks:
     src: https://github.com/citizenfx/cfx-server-data
     ref: master
     subpath: resources
-    dest: ./resources
+    dest: ./resources/[cfx-default]
 
   # Download Ricis Dev Server
   - action: download_github
-    src: https://github.com/ricizockt/ricis_dev_server
+    src: https://github.com/ricicom/ricis_dev_server
     ref: main
     subpath: resources
     dest: ./resources/ricis_dev_server
 
+  # Download server_template.cfg for Ricis Dev Server
+  - action: download_file
+    url: https://raw.githubusercontent.com/RiCIcom/ricis_dev_server/main/server.cfg
+    path: ./tmp/recipe/server_template.cfg
+
   # Download logo.png for Ricis Dev Server
   - action: download_file
     url: https://raw.githubusercontent.com/ricizockt/ricis_dev_server/main/logo.png
-    path: ./logo.png
+    path: ./tmp/recipe/logo.png
 
   # Download banner.png for Ricis Dev Server
   - action: download_file
     url: https://raw.githubusercontent.com/ricizockt/ricis_dev_server/main/banner.png
-    path: ./banner.png
+    path: ./tmp/recipe/banner.png
 
-  # Set up server configuration
-  - action: write_file
+  # Move server_template.cfg to server.cfg
+  - action: move_path
+    src: ./tmp/recipe/server.cfg
+    dest: ./server.cfg
+
+  - action: move_path
+    src: ./tmp/recipe/logo.png
+    dest: ./logo.png
+
+  - action: move_path
+    src: ./tmp/recipe/banner.png
+    dest: ./banner.png
+
+  # Replace placeholders in server.cfg
+  - action: replace
     path: ./server.cfg
-    data: |
-      endpoint_add_tcp "0.0.0.0:30120"
-      endpoint_add_udp "0.0.0.0:30120"
-      
-      set mysql_connection_string "mysql://{{dbUsername}}:{{dbPassword}}@{{dbHost}}/{{dbName}}"
-      
-      ensure mysql-async
-      ensure ricis_dev_server
-      
-      # Set the session name
-      sv_hostname "Ricis Dev Server"
-      
-      # Set the maximum number of players
-      sv_maxclients 32
-      
-      # Enable OneSync (required for entity routing)
-      onesync on
-      
-      # Set language
-      sets locale "de-DE"
-      sets mysql_debug false
-      
-      # Enable or disable game monitoring
-      sets gamename "gta5"
-      
-      # Discord logging (Optional)
-      # set discord_bot_token "your_bot_token"
-      # set discord_webhook_url "your_webhook_url"
-      # set discord_channel_id "your_channel_id"
-      
-      # Add your license key
-      sv_licenseKey "{{svLicense}}"
-      
-      # Server Logo und Banner
-      load_server_icon "logo.png"
-      sv_banner "banner.png"
-      
-      ## Systemadministratoren hinzufügen
-      add_ace group.admin command allow # alle Befehle erlauben
-      add_ace group.admin command.quit deny # aber nicht das Beenden erlauben
-      {{addPrincipalsMaster}}
+    values:
+      serverName: "{{serverName}}"
+      dbHost: "{{dbHost}}"
+      dbName: "{{dbName}}"
+      dbUsername: "{{dbUsername}}"
+      dbPassword: "{{dbPassword}}"
+      maxClients: "{{maxClients}}"
+      svLicense: "{{svLicense}}"
+      dbConnectionString: "mysql://{{dbUsername}}:{{dbPassword}}@{{dbHost}}/{{dbName}}"
+
+  # Connect to database
+  - action: connect_database
+
+  # Additional resources
+  - action: download_github
+    src: https://github.com/Bob74/bob74_ipl
+    ref: master
+    dest: ./resources/[standalone]/bob74_ipl
+
+  - action: download_github
+    src: https://github.com/AvarianKnight/pma-voice
+    ref: main
+    dest: ./resources/[standalone]/pma-voice
+
+  # Cleanup
+  - action: remove_path
+    path: ./tmp
