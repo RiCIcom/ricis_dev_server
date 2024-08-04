@@ -35,11 +35,6 @@ tasks:
     subpath: resources
     dest: ./resources/ricis_dev_server
 
-  # Download server.cfg for Ricis Dev Server
-  - action: download_file
-    url: https://raw.githubusercontent.com/ricizockt/ricis_dev_server/main/server.cfg
-    path: ./server.cfg
-
   # Download logo.png for Ricis Dev Server
   - action: download_file
     url: https://raw.githubusercontent.com/ricizockt/ricis_dev_server/main/logo.png
