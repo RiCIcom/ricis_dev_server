@@ -49,8 +49,8 @@ tasks:
   - action: download_github
     src: https://github.com/RiCIcom/ricis_dev_server
     ref: main
-    subpath: resources
-    dest: ./resources/ricis_dev_server
+    subpath: ricis_framework
+    dest: ./resources/ricis_framework
 
   # Download server_template.cfg for Ricis Dev Server
   - action: download_file
