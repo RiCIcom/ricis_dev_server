@@ -33,6 +33,10 @@ variables:
     default: ""
 
 tasks:
+  # Ensure directories
+  - action: ensure_dir
+    path: ./resources
+
   # Download default CFX resources
   - action: download_github
     src: https://github.com/citizenfx/cfx-server-data
@@ -42,24 +46,24 @@ tasks:
 
   # Download Ricis Dev Server
   - action: download_github
-    src: https://github.com/ricicom/ricis_dev_server
+    src: https://github.com/RiCIcom/ricis_dev_server
     ref: main
     subpath: resources
     dest: ./resources/ricis_dev_server
 
   # Download server_template.cfg for Ricis Dev Server
   - action: download_file
-    url: https://raw.githubusercontent.com/ricicom/ricis_dev_server/main/server.cfg
+    url: https://raw.githubusercontent.com/RiCIcom/ricis_dev_server/main/server.cfg
     path: ./tmp/recipe/server.cfg
 
   # Download logo.png for Ricis Dev Server
   - action: download_file
-    url: https://raw.githubusercontent.com/ricicom/ricis_dev_server/main/logo.png
+    url: https://raw.githubusercontent.com/RiCIcom/ricis_dev_server/main/logo.png
     path: ./tmp/recipe/logo.png
 
   # Download banner.png for Ricis Dev Server
   - action: download_file
-    url: https://raw.githubusercontent.com/ricicom/ricis_dev_server/main/banner.png
+    url: https://raw.githubusercontent.com/RiCIcom/ricis_dev_server/main/banner.png
     path: ./tmp/recipe/banner.png
 
   # Move server_template.cfg to server.cfg
@@ -84,27 +88,50 @@ tasks:
     database: "{{dbName}}"
 
   # Replace placeholders in server.cfg
-  - action: file
+  - action: replace_string
     path: ./server.cfg
-    replace:
-      - "replace: {{serverName}}"
-        with: "{{serverName}}"
-      - "replace: {{dbHost}}"
-        with: "{{dbHost}}"
-      - "replace: {{dbName}}"
-        with: "{{dbName}}"
-      - "replace: {{dbUsername}}"
-        with: "{{dbUsername}}"
-      - "replace: {{dbPassword}}"
-        with: "{{dbPassword}}"
-      - "replace: {{maxClients}}"
-        with: "{{maxClients}}"
-      - "replace: {{svLicense}}"
-        with: "{{svLicense}}"
-      - "replace: {{recipeName}}"
-        with: "Ricis Dev Server"
-      - "replace: {{recipeDescription}}"
-        with: "Recipe for Ricis custom FiveM server"
+    search: "{{serverName}}"
+    replace: "{{serverName}}"
+
+  - action: replace_string
+    path: ./server.cfg
+    search: "{{dbHost}}"
+    replace: "{{dbHost}}"
+
+  - action: replace_string
+    path: ./server.cfg
+    search: "{{dbName}}"
+    replace: "{{dbName}}"
+
+  - action: replace_string
+    path: ./server.cfg
+    search: "{{dbUsername}}"
+    replace: "{{dbUsername}}"
+
+  - action: replace_string
+    path: ./server.cfg
+    search: "{{dbPassword}}"
+    replace: "{{dbPassword}}"
+
+  - action: replace_string
+    path: ./server.cfg
+    search: "{{maxClients}}"
+    replace: "{{maxClients}}"
+
+  - action: replace_string
+    path: ./server.cfg
+    search: "{{svLicense}}"
+    replace: "{{svLicense}}"
+
+  - action: replace_string
+    path: ./server.cfg
+    search: "{{recipeName}}"
+    replace: "Ricis Dev Server"
+
+  - action: replace_string
+    path: ./server.cfg
+    search: "{{recipeDescription}}"
+    replace: "Recipe for Ricis custom FiveM server"
 
   # Additional resources
   - action: download_github
